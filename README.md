@@ -3,7 +3,7 @@
 
 -----
 
-# Two methods to deploy reverse-proxy docker traefik with ansible
+# Two methods to deploy reverse-proxy docker traefik with ansible on docker swarm
 1. Ansible with module docker_swarm_service for only one docker service [ref](https://docs.ansible.com/ansible/devel/modules/docker_swarm_service_module.html)
 
 2. Ansible 2.8 (devel version) with module docker_stack and docker-compose.yml for docker stack [ref](https://docs.ansible.com/ansible/devel/modules/docker_stack_module.html)
