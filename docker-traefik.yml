@@ -1,0 +1,38 @@
+- name: run reverse-proxy docker
+  hosts: all
+  tasks:
+   - name: install pip
+     apt: name=python-pip state=present
+
+   - name: install docker py
+     pip: name=docker state=present version=2.6
+
+   - name: install module py
+     pip: name={{ packages }} state=present
+     vars:
+       packages:
+       - pyyaml
+       - jsondiff
+
+   - name: create a network
+     docker_network:
+       name: traefik-net
+       driver: overlay
+
+   - name: run service traefik
+     docker_swarm_service:
+       name: proxy
+       image: "traefik:latest"
+       args:
+        - "--docker"
+        - "--docker.swarmmode"
+        - "--docker.domain=traefik"
+        - "--docker.watch"
+        - "--web"
+       mounts:
+        - {source: /var/run/docker.sock, target: /var/run/docker.sock, type: bind}
+       publish:
+        - {protocol: tcp, mode: ingress, published_port: 80, target_port: 80}
+        - {protocol: tcp, mode: ingress, published_port: 8080, target_port: 8080}
+       networks: traefik-net
+       user: 0
