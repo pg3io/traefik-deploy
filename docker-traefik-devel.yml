@@ -6,6 +6,13 @@
 
    - name: install docker py
      pip: name=docker state=present version=2.6
+ 
+   - name: install module py
+     pip: name={{ packages }} state=present
+     vars:
+       packages:
+       - pyyaml
+       - jsondiff
 
    - name: create a network
      docker_network:
