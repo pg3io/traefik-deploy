@@ -29,8 +29,8 @@ python: "2.7"
 before_install:
   - sudo apt-get update -qq
   - echo "localhost" > inventory
-  - sed -i 's/\ all/\ all\n\ \ gather_facts:\ False/' docker-traefik.yml
-  - cat docker-traefik.yml
+  - echo "[defaults]" > ansible.cfg
+  - echo "host_key_checking\ =\ False" >> ansible.cfg
 
 install:
   - pip install ansible
