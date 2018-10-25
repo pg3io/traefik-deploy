@@ -8,8 +8,7 @@ before_install:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - sudo apt-get -y install python-apt
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce python-apt
   - echo "localhost" > inventory
   - sed -i 's/\ all/\ all\n\ \ connection:\ local\n\ \ become:\ yes/' docker-traefik-devel.yml
   - docker swarm init
@@ -21,6 +20,7 @@ install:
 script:
   - ansible-playbook docker-traefik-devel.yml -i inventory --syntax-check
   - ansible-playbook docker-traefik-devel.yml -i inventory
+  - docker stack services proxy
   - docker service create --name whoami0 --label traefik.port=80 --network traefik-net containous/whoami
   - sleep 2
   - curl --fail -H Host:whoami0.traefik http://localhost/
