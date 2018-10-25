@@ -8,8 +8,8 @@ before_script:
   - alias curl='docker run --rm --net=host buildpack-deps:artful-curl curl'
 
 script:
-  - docker network create traefik-net --driver overlay
   - docker swarm init
+  - docker network create traefik-net --driver overlay
   - docker stack deploy -c ./files/docker-stack.yml proxy
   - sleep 60
   - docker stack services proxy
