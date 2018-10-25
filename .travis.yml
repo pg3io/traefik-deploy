@@ -36,15 +36,16 @@ before_install:
   - sed -i 's/\ all/\ all\n\ \ connection:\ local\n\ \ become:\ yes/' docker-traefik.yml
 
 install:
-  - pip install ansible==2.7
+  - pip install git+git://github.com/ansible/ansible.git@devel --upgrade
   - pip install ansible-lint
+  - pip show ansible
 
 script:
   - docker swarm init
   - docker node list
   - docker service ls
-  - ansible-playbook docker-traefik.yml -i inventory --syntax-check
-  - ansible-playbook docker-traefik.yml -i inventory
+  - ansible-playbook docker-traefik-devel.yml -i inventory --syntax-check
+  - ansible-playbook docker-traefik-devel.yml -i inventory
   - sleep 5
   - docker service create --name whoami0 --label traefik.port=80 --network traefik-net emilevauge/whoami
   - sleep 5
