@@ -33,7 +33,7 @@ before_install:
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - sudo apt-get install python-apt -y
   - echo "localhost" > inventory
-  - sed -i 's/\ all/\ all\n\ \ connection:\ local\n\ \ become:\ yes/' docker-traefik.yml
+  - sed -i 's/\ all/\ all\n\ \ connection:\ local\n\ \ become:\ yes/' docker-traefik-devel.yml
 
 install:
   - pip install git+git://github.com/ansible/ansible.git@devel --upgrade
