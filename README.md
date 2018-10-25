@@ -1,4 +1,5 @@
 ![version](https://img.shields.io/badge/version-v1.0-orange.svg)
+[![Build Status](https://travis-ci.com/adri1s/traefik-deploy.svg?branch=master)](https://travis-ci.com/adri1s/traefik-deploy)
 [![Twitter](https://img.shields.io/twitter/follow/pg3io.svg?style=social)](https://twitter.com/intent/follow?screen_name=pg3io)
 
 -----
