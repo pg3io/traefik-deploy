@@ -1,5 +1,7 @@
-language: minimal
-services: docker
+sudo: required
+
+services:
+  - docker
 
 before_install:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
