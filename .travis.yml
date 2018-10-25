@@ -10,7 +10,7 @@ before_script:
 script:
   - docker swarm init
   - docker network create traefik-net --driver overlay
-  - docker stack deploy -c ./files/docker-stack.yml proxy
+  - docker stack deploy -c ./files/docker-compose.yml proxy
   - sleep 60
   - docker stack services proxy
   - docker service create --name whoami0 --label traefik.port=80 --network traefik-net emilevauge/whoami
