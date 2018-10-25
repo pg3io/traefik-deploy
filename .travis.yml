@@ -30,7 +30,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install python-apt -y
   - echo "localhost" > inventory
-  - sed -i 's/\ all/\ all\n\ \ connection:\ local/' docker-traefik.yml
+  - sed -i 's/\ all/\ all\n\ \ connection:\ local\n\ \ become:\ yes/' docker-traefik.yml
   - cat docker-traefik.yml
 
 install:
@@ -38,6 +38,8 @@ install:
   - pip install ansible-lint
 
 script:
+  - docker swarm init
+  - docker network create traefik-net --driver overlay
   - ansible-playbook docker-traefik.yml -i inventory --syntax-check
   - ansible-playbook docker-traefik.yml -i inventory
   - sleep 5
