@@ -43,6 +43,7 @@ script:
   - docker network create traefik-net --driver overlay
   - ansible-playbook docker-traefik.yml -i inventory --syntax-check
   - ansible-playbook docker-traefik.yml -i inventory
+  - pip show docker
   - sleep 5
   - docker service create --name whoami0 --label traefik.port=80 --network traefik-net emilevauge/whoami
   - sleep 5
