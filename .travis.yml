@@ -25,4 +25,4 @@ script:
   - docker stack services proxy
   - docker service create --name whoami0 --label traefik.port=80 --network traefik-net containous/whoami
   - sleep 5
-  - curl --fail -H Host:whoami0.traefik http://localhost/
+  - curl --fail -s --retry 10 --retry-delay 5 --retry-connrefused -D- -H Host:whoami0.traefik http://localhost/
