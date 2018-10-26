@@ -20,6 +20,8 @@ install:
 script:
   - ansible-playbook docker-traefik-devel.yml -i inventory --syntax-check
   - ansible-playbook docker-traefik-devel.yml -i inventory
+  - sleep 5
+  - docker stack ps proxy
   - docker stack services proxy
   - docker service create --name whoami0 --label traefik.port=80 --network traefik-net containous/whoami
   - sleep 2
