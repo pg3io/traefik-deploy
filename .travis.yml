@@ -1,0 +1,28 @@
+sudo: required
+dist: trusty
+
+language: python
+python: "2.7"
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce python-apt
+  - echo "localhost" > inventory
+  - sed -i 's/\ all/\ all\n\ \ connection:\ local\n\ \ become:\ yes/' docker-traefik-devel.yml
+  - docker swarm init
+
+install:
+  - pip install git+git://github.com/ansible/ansible.git@devel --upgrade
+  - pip install ansible-lint
+
+script:
+  - ansible-playbook docker-traefik-devel.yml -i inventory --syntax-check
+  - ansible-playbook docker-traefik-devel.yml -i inventory
+  - sleep 5
+  - docker stack ps proxy
+  - docker stack services proxy
+  - docker service create --name whoami0 --label traefik.port=80 --network traefik-net containous/whoami
+  - sleep 10
+  - curl --fail -H Host:whoami0.traefik http://localhost/
